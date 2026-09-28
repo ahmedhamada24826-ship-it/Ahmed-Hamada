@@ -1,0 +1,310 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model SiteSettings {
+  id                    String   @id @default("default_settings")
+  siteName              String   @default("Ahmed Hamada Portfolio")
+  siteTitleEn           String   @default("Ahmed Hamada | Data Analyst & BI Developer")
+  siteTitleAr           String   @default("أحمد حمادة | محلل بيانات ومطور ذكاء الأعمال")
+  logoText              String   @default("Ahmed Hamada")
+  logoUrl               String?
+  faviconUrl            String?
+  
+  // Hero Section
+  heroTitleEn           String   @default("Ahmed Hamada")
+  heroTitleAr           String   @default("أحمد حمادة")
+  heroHeadlineEn        String   @default("Turning Data into Insights and Insights into Decisions.")
+  heroHeadlineAr        String   @default("تحويل البيانات إلى رؤى والرؤى إلى قرارات أعمال استراتيجية.")
+  heroSubheadlineEn     String   @default("Data Analyst | BI Developer | Technical Instructor")
+  heroSubheadlineAr     String   @default("محلل بيانات | مطور ذكاء الأعمال (BI) | مدرب تقني")
+  heroDescEn            String   @default("I transform raw data into meaningful insights and interactive dashboards that support better business decisions.")
+  heroDescAr            String   @default("أقوم بتحويل البيانات الأولية المعقدة إلى رؤى قيّمة ولوحات تحكم تفاعلية تدعم اتخاذ قرارات دقيقة للأعمال.")
+  heroPhotoUrl          String?
+  heroSecondaryImageUrl String?
+  heroCvUrl             String?
+  heroAvailable         Boolean  @default(true)
+  availabilityTextEn    String   @default("Available for Projects & Consulting")
+  availabilityTextAr    String   @default("متاح للمشاريع والخدمات الاستشارية")
+  
+  // About Section
+  aboutBioEn            String   @default("I am a passionate Data Analyst and Business Intelligence Developer with a strong foundation in commerce and analytics from Kafr El Sheikh University. I specialize in building end-to-end data pipelines, predictive models, and high-impact Power BI & Excel executive dashboards.")
+  aboutBioAr            String   @default("محلل بيانات ومطور ذكاء أعمال خبير، خريج كلية التجارة بجامعة كفر الشيخ. متخصص في بناء مسارات البيانات المتكاملة، التحليلات المتقدمة، ولوحات التحكم التنفيذية التفاعلية عبر Power BI و Excel.")
+  aboutHighlightsEn     String   @default("• Faculty of Commerce, Kafr El Sheikh University\n• Expert in Power BI, DAX, Power Query & SQL\n• Advanced Python & Pandas Data Processing\n• Technical Instructor passionate about knowledge sharing")
+  aboutHighlightsAr     String   @default("• كلية التجارة - جامعة كفر الشيخ\n• خبير في Power BI و DAX و Power Query و SQL\n• معالجة متقدمة للبيانات باستخدام Python و Pandas\n• مدرب تقني شغوف بنقل المعرفة وتطوير الكفاءات")
+  aboutPhotoUrl         String?
+  aboutCvUrl            String?
+
+  // Visual & Brand Colors
+  primaryColor          String   @default("#0B2D5B")
+  royalColor            String   @default("#2563EB")
+  lightColor            String   @default("#60A5FA")
+  darkColor             String   @default("#0F172A")
+  grayColor             String   @default("#E5E7EB")
+  
+  // Layout & Visibility
+  showHeroStats         Boolean  @default(true)
+  showFeaturedProjects  Boolean  @default(true)
+  showServices          Boolean  @default(true)
+  showSkills            Boolean  @default(true)
+  showExperience        Boolean  @default(true)
+  showEducation         Boolean  @default(true)
+  showCertificates      Boolean  @default(true)
+  showContact           Boolean  @default(true)
+
+  // Social & Contact
+  contactEmail          String   @default("ahmed.hamada@example.com")
+  contactPhone          String   @default("+20 100 000 0000")
+  whatsapp              String   @default("+20 100 000 0000")
+  linkedinUrl           String   @default("https://linkedin.com/in/ahmed-hamada")
+  githubUrl             String   @default("https://github.com/ahmed-hamada")
+  kaggleUrl             String   @default("https://kaggle.com/ahmedhamada")
+  twitterUrl            String?
+  locationEn            String   @default("Egypt")
+  locationAr            String   @default("مصر")
+  
+  // Footer
+  footerTextEn          String   @default("© 2026 Ahmed Hamada. All rights reserved. Data Analyst & BI Developer.")
+  footerTextAr          String   @default("© 2026 أحمد حمادة. جميع الحقوق محفوظة. محلل بيانات ومطور ذكاء الأعمال.")
+  
+  // SEO
+  seoKeywordsEn         String   @default("Ahmed Hamada, Data Analyst, BI Developer, Power BI, SQL, Python, Excel, Business Intelligence, Dashboard, Portfolio")
+  seoKeywordsAr         String   @default("أحمد حمادة, محلل بيانات, مطور ذكاء الأعمال, باور بي آي, بايثون, إكسيل, لوحات تحكم, سيرة ذاتية")
+  seoDescEn             String   @default("Official portfolio of Ahmed Hamada - Data Analyst, BI Developer, and Technical Instructor specializing in Power BI, SQL, Python, and business intelligence.")
+  seoDescAr             String   @default("الموقع الرسمي للمهندس أحمد حمادة - محلل بيانات ومطور ذكاء أعمال ومدرب تقني متخصص في Power BI و SQL و Python.")
+
+  updatedAt             DateTime @updatedAt
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  nameEn    String
+  nameAr    String
+  slug      String    @unique
+  order     Int       @default(0)
+  skills    Skill[]
+  projects  Project[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Skill {
+  id            String    @id @default(cuid())
+  nameEn        String
+  nameAr        String
+  categoryName  String    @default("Data Analysis")
+  categoryId    String?
+  category      Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  iconName      String    @default("BarChart3")
+  iconImageUrl  String?
+  proficiency   Int?      @default(90)
+  descriptionEn String?
+  descriptionAr String?
+  order         Int       @default(0)
+  isVisible     Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Service {
+  id            String   @id @default(cuid())
+  titleEn       String
+  titleAr       String
+  descriptionEn String
+  descriptionAr String
+  iconName      String   @default("TrendingUp")
+  imageUrl      String?
+  ctaTextEn     String?  @default("Request Service")
+  ctaTextAr     String?  @default("طلب الخدمة")
+  ctaLink       String?  @default("#contact")
+  order         Int      @default(0)
+  isVisible     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Project {
+  id                 String    @id @default(cuid())
+  slug               String    @unique
+  titleEn            String
+  titleAr            String
+  shortDescEn        String
+  shortDescAr        String
+  overviewEn         String
+  overviewAr         String
+  businessProblemEn  String
+  businessProblemAr  String
+  objectivesEn       String
+  objectivesAr       String
+  datasetDescEn      String
+  datasetDescAr      String
+  dataSourceEn       String?
+  dataSourceAr       String?
+  toolsAndTech       String    // comma-separated or JSON array string
+  methodologyEn      String
+  methodologyAr      String
+  keyFindingsEn      String
+  keyFindingsAr      String
+  recommendationsEn  String
+  recommendationsAr  String
+  coverImage         String
+  secondaryImages    String?   // JSON array of image URLs
+  tags               String    // comma-separated
+  categoryName       String    @default("Data Analysis")
+  categoryId         String?
+  category           Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  githubUrl          String?
+  liveDemoUrl        String?
+  videoUrl           String?
+  downloadFileUrl    String?
+  isFeatured         Boolean   @default(false)
+  isPublished        Boolean   @default(true)
+  order              Int       @default(0)
+  seoTitleEn         String?
+  seoTitleAr         String?
+  seoDescEn          String?
+  seoDescAr          String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+}
+
+model Experience {
+  id             String   @id @default(cuid())
+  organizationEn String
+  organizationAr String
+  positionEn     String
+  positionAr     String
+  type           String   @default("work") // work, training, volunteer, workshop
+  descriptionEn  String
+  descriptionAr  String
+  startDate      String
+  endDate        String?
+  isCurrent      Boolean  @default(false)
+  locationEn     String?
+  locationAr     String?
+  logoUrl        String?
+  order          Int      @default(0)
+  isVisible      Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Education {
+  id            String   @id @default(cuid())
+  institutionEn String
+  institutionAr String
+  degreeEn      String
+  degreeAr      String
+  fieldEn       String
+  fieldAr       String
+  startDate     String
+  endDate       String
+  gradeEn       String?
+  gradeAr       String?
+  descriptionEn String?
+  descriptionAr String?
+  logoUrl       String?
+  docUrl        String?
+  order         Int      @default(0)
+  isVisible     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Certificate {
+  id              String   @id @default(cuid())
+  titleEn         String
+  titleAr         String
+  issuerEn        String
+  issuerAr        String
+  issueDate       String
+  credentialId    String?
+  verificationUrl String?
+  imageUrl        String?
+  pdfUrl          String?
+  descriptionEn   String?
+  descriptionAr   String?
+  skills          String?  // comma-separated
+  isFeatured      Boolean  @default(true)
+  isVisible       Boolean  @default(true)
+  order           Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Statistic {
+  id        String   @id @default(cuid())
+  labelEn   String
+  labelAr   String
+  value     String
+  iconName  String   @default("Award")
+  isAuto    Boolean  @default(false)
+  autoType  String?  // 'projects', 'skills', 'certificates'
+  order     Int      @default(0)
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NavigationItem {
+  id         String   @id @default(cuid())
+  labelEn    String
+  labelAr    String
+  href       String
+  order      Int      @default(0)
+  isVisible  Boolean  @default(true)
+  isExternal Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  isRead    Boolean  @default(false)
+  isStarred Boolean  @default(false)
+  ipAddress String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MediaAsset {
+  id           String   @id @default(cuid())
+  fileName     String
+  originalName String
+  mimeType     String
+  size         Int
+  url          String
+  altTextEn    String?
+  altTextAr    String?
+  folder       String   @default("general")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  action    String
+  entity    String
+  entityId  String?
+  details   String?
+  createdAt DateTime @default(now())
+}
