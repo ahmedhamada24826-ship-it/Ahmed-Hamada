@@ -1,7 +1,6 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import {
   Image as ImageIcon,
   Upload,
@@ -150,12 +149,7 @@ export default function AdminMediaPage() {
               {/* Preview Thumbnail */}
               <div className="relative aspect-square w-full bg-slate-800">
                 {item.mimeType.startsWith("image/") ? (
-                  <Image
-                    src={item.url}
-                    alt={item.originalName}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform"
-                  />
+                  <img src={item.url} alt={item.originalName} className="object-cover w-full h-full group-hover:scale-105 transition-transform absolute inset-0" />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center p-3 text-slate-400">
                     <FileText className="w-10 h-10 mb-1 text-brand-light" />

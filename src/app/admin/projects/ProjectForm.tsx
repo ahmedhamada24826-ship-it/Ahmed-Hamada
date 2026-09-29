@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -237,16 +237,20 @@ export function ProjectForm({ initialData, isEdit = false }: ProjectFormProps) {
               Category
             </label>
             <select
-              value={formData.categoryName}
-              onChange={(e) => setFormData({ ...formData, categoryName: e.target.value })}
+              value={formData.categoryId || ""}
+              onChange={(e) => {
+                const selectedCat = categories.find((c: any) => c.id === e.target.value);
+                if (selectedCat) {
+                  setFormData({ ...formData, categoryName: selectedCat.nameEn, categoryId: selectedCat.id });
+                } else {
+                  setFormData({ ...formData, categoryId: "" });
+                }
+              }}
               className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none"
             >
-              <option value="Business Intelligence">Business Intelligence</option>
-              <option value="Data Analysis">Data Analysis</option>
-              <option value="Data Modeling & ETL">Data Modeling & ETL</option>
-              <option value="Python Analytics">Python Analytics</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.nameEn}>
+              <option value="">-- Select Category --</option>
+              {categories.map((c: any) => (
+                <option key={c.id} value={c.id}>
                   {c.nameEn}
                 </option>
               ))}
@@ -526,12 +530,7 @@ export function ProjectForm({ initialData, isEdit = false }: ProjectFormProps) {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="relative w-40 aspect-video rounded-xl overflow-hidden bg-slate-800 border border-slate-700 shrink-0">
               {formData.coverImage ? (
-                <Image
-                  src={formData.coverImage}
-                  alt="Cover Preview"
-                  fill
-                  className="object-cover"
-                />
+                <img src={formData.coverImage} alt="Cover Preview" className="object-cover w-full h-full" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-slate-500 text-xs">
                   No Cover
@@ -587,7 +586,7 @@ export function ProjectForm({ initialData, isEdit = false }: ProjectFormProps) {
                 key={idx}
                 className="group relative aspect-video rounded-xl overflow-hidden bg-slate-800 border border-slate-700"
               >
-                <Image src={imgUrl} alt={`Gallery ${idx}`} fill className="object-cover" />
+                <img src={imgUrl} alt={`Gallery ${idx}`} className="object-cover w-full h-full absolute inset-0" />
                 <button
                   type="button"
                   onClick={() => removeGalleryImage(idx)}

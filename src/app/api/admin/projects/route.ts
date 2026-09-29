@@ -41,6 +41,31 @@ export async function POST(req: NextRequest) {
       counter++;
     }
 
+    let resolvedCategoryId: string | null = null;
+    if (body.categoryId && typeof body.categoryId === "string" && body.categoryId.trim() !== "") {
+      const catExists = await prisma.category.findUnique({
+        where: { id: body.categoryId.trim() },
+      });
+      if (catExists) {
+        resolvedCategoryId = catExists.id;
+      }
+    }
+
+    if (!resolvedCategoryId && body.categoryName) {
+      const catByName = await prisma.category.findFirst({
+        where: {
+          OR: [
+            { nameEn: body.categoryName },
+            { nameAr: body.categoryName },
+            { slug: slugify(body.categoryName) },
+          ],
+        },
+      });
+      if (catByName) {
+        resolvedCategoryId = catByName.id;
+      }
+    }
+
     const project = await prisma.project.create({
       data: {
         slug: uniqueSlug,
@@ -69,7 +94,7 @@ export async function POST(req: NextRequest) {
         secondaryImages: body.secondaryImages ? JSON.stringify(body.secondaryImages) : "[]",
         tags: body.tags || "",
         categoryName: body.categoryName || "Data Analysis",
-        categoryId: body.categoryId || null,
+        categoryId: resolvedCategoryId,
         githubUrl: body.githubUrl || null,
         liveDemoUrl: body.liveDemoUrl || null,
         videoUrl: body.videoUrl || null,

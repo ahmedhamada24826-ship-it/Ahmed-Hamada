@@ -50,6 +50,31 @@ export async function PUT(req: NextRequest, { params }: Params) {
       }
     }
 
+    let resolvedCategoryId: string | null = null;
+    if (body.categoryId && typeof body.categoryId === "string" && body.categoryId.trim() !== "") {
+      const catExists = await prisma.category.findUnique({
+        where: { id: body.categoryId.trim() },
+      });
+      if (catExists) {
+        resolvedCategoryId = catExists.id;
+      }
+    }
+
+    if (!resolvedCategoryId && body.categoryName) {
+      const catByName = await prisma.category.findFirst({
+        where: {
+          OR: [
+            { nameEn: body.categoryName },
+            { nameAr: body.categoryName },
+            { slug: slugify(body.categoryName) },
+          ],
+        },
+      });
+      if (catByName) {
+        resolvedCategoryId = catByName.id;
+      }
+    }
+
     const updated = await prisma.project.update({
       where: { id },
       data: {
@@ -81,7 +106,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
           : body.secondaryImages,
         tags: body.tags,
         categoryName: body.categoryName,
-        categoryId: body.categoryId,
+        categoryId: resolvedCategoryId,
         githubUrl: body.githubUrl,
         liveDemoUrl: body.liveDemoUrl,
         videoUrl: body.videoUrl,

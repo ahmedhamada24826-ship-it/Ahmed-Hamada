@@ -1,7 +1,6 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import { Upload, X, Check, Image as ImageIcon, Search, Loader2 } from "lucide-react";
 
 interface MediaPickerModalProps {
@@ -172,12 +171,7 @@ export function MediaPickerModal({
                   }}
                   className="group relative aspect-square rounded-xl overflow-hidden bg-slate-800 border border-slate-700/80 hover:border-brand-royal cursor-pointer transition-all"
                 >
-                  <Image
-                    src={item.url}
-                    alt={item.originalName}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform"
-                  />
+                  <img src={item.url} alt={item.originalName} className="object-cover w-full h-full group-hover:scale-105 transition-transform absolute inset-0" />
                   <div className="absolute inset-0 bg-brand-royal/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
                     <Check className="w-6 h-6" />
                   </div>
