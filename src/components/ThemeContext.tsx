@@ -17,27 +17,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem("theme") as Theme;
-    if (saved === "light" || saved === "dark") {
-      setThemeState(saved);
-      if (saved === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    } else {
-      // Default to dark mode for premium navy theme
-      document.documentElement.classList.add("dark");
-    }
+    const resolvedTheme = saved === "light" || saved === "dark" ? saved : "dark";
+    setThemeState(resolvedTheme);
+    document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
+    document.documentElement.classList.toggle("light", resolvedTheme === "light");
   }, []);
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
     localStorage.setItem("theme", newTheme);
-    if (newTheme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    document.documentElement.classList.toggle("light", newTheme === "light");
   };
 
   const toggleTheme = () => {

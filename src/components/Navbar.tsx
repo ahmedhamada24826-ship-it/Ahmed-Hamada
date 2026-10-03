@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageContext";
 import { useTheme } from "@/components/ThemeContext";
@@ -36,6 +37,10 @@ export function Navbar({ settings, navItems }: NavbarProps) {
   }, []);
 
   const logoText = settings?.logoText || "Ahmed Hamada";
+  const logoImage =
+    settings?.heroPhotoUrl ||
+    settings?.aboutPhotoUrl ||
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80";
   const cvUrl = settings?.heroCvUrl || "/cv-ahmed-hamada.pdf";
 
   const defaultNavLinks = [
@@ -68,20 +73,27 @@ export function Navbar({ settings, navItems }: NavbarProps) {
           : "bg-transparent py-5"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
         {/* Personal Typographic Wordmark */}
         <Link
           href="/#home"
-          className="group flex items-center gap-3 text-left focus:outline-none"
+          className="group flex items-center gap-3 text-left focus:outline-none shrink-0 min-w-0"
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-royal to-brand-navy flex items-center justify-center text-white font-bold text-lg shadow-md group-hover:scale-105 transition-transform border border-brand-light/20">
-            AH
+          <div className="relative w-11 h-11 overflow-hidden rounded-xl shadow-md group-hover:scale-105 transition-transform border border-brand-light/20 bg-gradient-to-br from-brand-royal to-brand-navy">
+            <Image
+              src={logoImage}
+              alt={logoText}
+              fill
+              sizes="44px"
+              className="object-cover"
+              priority
+            />
           </div>
-          <div className="flex flex-col">
-            <span className="font-bold text-lg md:text-xl tracking-tight text-slate-900 dark:text-white group-hover:text-brand-royal dark:group-hover:text-brand-light transition-colors">
+          <div className="flex flex-col leading-none min-w-0">
+            <span className="font-bold text-lg md:text-xl tracking-tight text-slate-900 dark:text-white group-hover:text-brand-royal dark:group-hover:text-brand-light transition-colors whitespace-nowrap">
               {logoText}
             </span>
-            <span className="text-[11px] font-medium tracking-wider text-brand-royal dark:text-brand-light uppercase">
+            <span className="mt-1 text-[10px] sm:text-[11px] font-medium tracking-wider text-brand-royal dark:text-brand-light uppercase whitespace-nowrap">
               {language === "ar" ? "محلل بيانات وذكاء أعمال" : "Data Analyst & BI Developer"}
             </span>
           </div>
@@ -107,9 +119,9 @@ export function Navbar({ settings, navItems }: NavbarProps) {
             href={cvUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-3.5 py-2 text-xs md:text-sm font-semibold text-white bg-gradient-to-r from-brand-royal to-brand-navy hover:from-blue-600 hover:to-brand-navy rounded-lg shadow-sm hover:shadow transition-all"
+            className="flex items-center justify-center gap-2 px-3.5 py-2 text-[11px] sm:text-xs md:text-sm font-semibold text-white bg-gradient-to-r from-brand-royal to-brand-navy hover:from-blue-600 hover:to-brand-navy rounded-lg shadow-sm hover:shadow transition-all whitespace-nowrap"
           >
-            <FileDown className="w-4 h-4" />
+            <FileDown className="w-4 h-4 shrink-0" />
             <span>{t.nav.downloadCv}</span>
           </a>
 

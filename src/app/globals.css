@@ -4,19 +4,36 @@
 
 @layer base {
   :root {
-    --bg-primary: #f8fafc;
+    --bg-primary: #f6f8fc;
     --bg-surface: #ffffff;
-    --bg-surface-elevated: #f1f5f9;
+    --bg-surface-elevated: #eef4ff;
     --text-primary: #0f172a;
     --text-secondary: #475569;
     --text-muted: #64748b;
-    --border-color: #e2e8f0;
+    --border-color: #dfeaf8;
     --brand-navy: #0b2d5b;
     --brand-royal: #2563eb;
     --brand-light: #60a5fa;
     --brand-gray: #e5e7eb;
     --brand-dark: #0f172a;
     --brand-accent: #38bdf8;
+  }
+
+  .light {
+    --bg-primary: #f5f8ff;
+    --bg-surface: #ffffff;
+    --bg-surface-elevated: #eef4ff;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --border-color: #dfeaf8;
+    --brand-navy: #0b2d5b;
+    --brand-royal: #1d4ed8;
+    --brand-light: #60a5fa;
+    --brand-gray: #e5e7eb;
+    --brand-dark: #0f172a;
+    --brand-accent: #38bdf8;
+    color-scheme: light;
   }
 
   .dark {
@@ -33,6 +50,7 @@
     --brand-gray: #334155;
     --brand-dark: #070d1e;
     --brand-accent: #38bdf8;
+    color-scheme: dark;
   }
 }
 
@@ -73,10 +91,12 @@ body {
 }
 
 .light .glass-card {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
+  color: #0f172a;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(37, 99, 235, 0.08);
 }
 
 .glass-header {
@@ -88,9 +108,11 @@ body {
 
 .light .glass-header {
   background: rgba(255, 255, 255, 0.9);
+  color: #0f172a;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.26);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 }
 
 /* Gradients */

@@ -41,7 +41,9 @@ export function HeroSection({ settings, stats }: HeroSectionProps) {
     : (settings?.availabilityTextEn || "Available for Projects & Consulting");
 
   const cvUrl = settings?.heroCvUrl || "/cv-ahmed-hamada.pdf";
-  const photoUrl = settings?.heroPhotoUrl;
+  const photoUrl =
+    settings?.heroPhotoUrl ||
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80";
 
   const defaultStats = [
     { label: language === "ar" ? "مشروع مكتمل" : "Completed Projects", value: "15+", icon: "FolderGit2" },
@@ -193,37 +195,13 @@ export function HeroSection({ settings, stats }: HeroSectionProps) {
 
               <div className="relative rounded-2xl glass-card p-6 sm:p-8 overflow-hidden shadow-2xl border border-slate-200/50 dark:border-brand-light/15">
                 <div className="relative aspect-[4/4.2] w-full rounded-xl overflow-hidden bg-gradient-to-b from-brand-navy to-brand-dark flex items-center justify-center border border-slate-700/40">
-                  {photoUrl ? (
-                    <Image
-                      src={photoUrl}
-                      alt={title}
-                      fill
-                      className="object-cover object-top"
-                      priority
-                    />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-[#0B2D5B] via-[#0F172A] to-[#070D1E] relative">
-                      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#60a5fa_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                      
-                      <div className="w-24 h-24 rounded-2xl bg-gradient-to-tr from-brand-royal to-brand-light flex items-center justify-center text-white text-3xl font-black shadow-xl shadow-blue-500/20 mb-4 border border-white/20">
-                        AH
-                      </div>
-                      
-                      <h3 className="text-xl font-bold text-white tracking-wide">
-                        {title}
-                      </h3>
-                      <p className="text-xs text-brand-light font-medium mt-1 uppercase tracking-wider">
-                        Data Analyst & BI Developer
-                      </p>
-                      
-                      <div className="mt-5 flex flex-wrap gap-2 justify-center">
-                        <span className="px-2.5 py-1 rounded-md bg-blue-500/20 text-blue-300 text-[11px] font-mono border border-blue-400/20">Power BI</span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 text-[11px] font-mono border border-sky-400/20">SQL</span>
-                        <span className="px-2.5 py-1 rounded-md bg-indigo-500/20 text-indigo-300 text-[11px] font-mono border border-indigo-400/20">Python</span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 text-[11px] font-mono border border-emerald-400/20">Excel / DAX</span>
-                      </div>
-                    </div>
-                  )}
+                  <Image
+                    src={photoUrl}
+                    alt={title}
+                    fill
+                    className="object-cover object-top"
+                    priority
+                  />
 
                   <div className="absolute top-3 right-3 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-brand-light/30 shadow-lg flex items-center gap-2">
                     <TrendingUp className="w-4 h-4 text-brand-light" />
